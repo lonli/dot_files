@@ -1,0 +1,23 @@
+! clear lock
+! clear mod2
+! keysym Num_Lock = Hyper_R
+! add mod4 = Hyper_R
+clear lock
+keysym Num_Lock = F17
+! keysym KP_Divide = Pointer_Button4
+! keysym KP_Multiply = Pointer_Button3
+! keysym KP_Subtract = Pointer_Button2
+! keysym KP_Add = Pointer_Button1
+
+keysym KP_Home = Home
+keysym KP_Up = Up
+keysym KP_Prior = Prior
+keysym KP_Left = Left
+keysym KP_Begin = space
+keysym KP_Right = Right
+keysym KP_End = End
+keysym KP_Down = Down
+keysym KP_Next = Next
+keysym KP_Insert = Insert
+keysym KP_Delete = Delete
+keysym KP_Enter = Return
