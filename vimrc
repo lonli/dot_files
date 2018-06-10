@@ -12,7 +12,7 @@ set cursorline
 
 "indent
 set tabstop=8
-"set expandtab
+set expandtab
 set softtabstop=4
 
 %retab
@@ -38,8 +38,10 @@ function Initial()
         call append(l:start_no, ["\#!/bin/bash", "", ""])
         call cursor(3, 1)
     elseif "py" == l:ft
-        call append(l:start_no, ["\#!/usr/bin/env python3", "", ""])
-        call cursor(3, 1)
+        if empty(glob("manage.py")) "not django
+            call append(l:start_no, ["\#!/usr/bin/env python3", "", ""])
+            call cursor(3, 1)
+        endif
     elseif "c" == l:ft || "cc" == l:ft
         let l:cont = ['']
         call add(l:cont, "int main (int argc, char *argv[]) {")
@@ -51,6 +53,8 @@ function Initial()
     endif
 endfunction
 autocmd BufRead,BufNewFile *.sc set filetype=scala
+
+autocmd BufRead,BufNewFile *.v,*.g,*.t,*.f set ft=glsl
 
 "file information
 let s:file_info = 0
@@ -198,6 +202,10 @@ function RtImport()
         else
             let l:put_line = 0
         endif
+        let l:cur_row = getcurpos()[1]
+        while l:put_line < l:cur_row  && "#" == getline(l:put_line + 1)[0]
+            let l:put_line = l:put_line + 1
+        endwhile
         call append(l:put_line, l:prefix . l:result)
 	let l:pos = l:put_line + 1
         echo l:prefix . " @ line " . l:pos
@@ -213,10 +221,14 @@ function WdExpand()
     startinsert!
 endfunction
 
+let g:pymode = 1
+let g:pymode_python = 'python3'
 call plug#begin("~/.vim/plugged")
+Plug 'python-mode/python-mode', { 'branch': 'develop' }
 Plug 'pearofducks/ansible-vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'derekwyatt/vim-scala'
+Plug 'tikhomirov/vim-glsl'
 call plug#end()
 
 "if exists("$TMUX")
@@ -226,7 +238,7 @@ call plug#end()
 "endif
 
 if exists("$TMUX")
-    colorscheme sea
+    colorscheme spring
 else
     colorscheme apprentice
 endif
